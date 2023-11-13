@@ -3,7 +3,8 @@ import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import { errorHandler } from "@mkproject/common";
 
-import { mountRoutes } from "./routes/mount.routes";
+import { mountRoutes } from "../src/routes/mountRoutes";
+
 
 export const app = express();
 dotenv.config();
@@ -15,8 +16,10 @@ app.use(cookieSession({
     secure: process.env.NODE_ENV !== "test"
 }));
 
-//mount routes 
+//mount routes
+
 mountRoutes(app);
+
 
 //global error middleware
 app.use(errorHandler)

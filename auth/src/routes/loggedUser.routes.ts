@@ -1,7 +1,7 @@
 import express from "express";
 
 import { currentUser } from "../controller/loggedUser.controller";
-import { auth as protect } from "../middlewares/auth";
+import { auth as protect } from "@mkproject/common";
 
 export const router = express.Router();
 

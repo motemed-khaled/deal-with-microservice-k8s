@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import "express-async-errors";
 
 import { userModel } from "../model/user";
-import { BadRequestError } from "../utils/errors/bad-request-error";
+import { BadRequestError } from "@mkproject/common";
 import { generateToken } from "../utils/generateToken";
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
 

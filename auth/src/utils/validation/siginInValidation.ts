@@ -1,5 +1,5 @@
 import { check } from "express-validator";
-import { validatorMiddleware } from "../../middlewares/validationError.middleware";
+import { validatorMiddleware } from "@mkproject/common";
 
 export const siginInValidation = [
     check("email").isEmail()

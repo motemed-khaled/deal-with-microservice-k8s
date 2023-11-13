@@ -13,3 +13,9 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: motemedkhaled/tickets
+      context: tickets
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .

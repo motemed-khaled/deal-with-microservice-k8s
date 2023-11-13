@@ -1,7 +1,7 @@
 import { Application } from "express";
 import "express-async-errors";
+import { NotFoundError } from "@mkproject/common";
 
-import { NotFoundError } from "../utils/errors/notFound-error";
 import { router as loggedUserRoutes } from "./loggedUser.routes";
 import { router as siginUPRoutes } from "./siginUp.routes";
 import { router as siginOutRoutes } from "./siginiOut.routes";
