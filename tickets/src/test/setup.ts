@@ -7,8 +7,12 @@ import jwt from "jsonwebtoken";
  declare global {
       var signin: () => string[];
     }
-
+    
+jest.mock("../nats-wraper.ts");
+    
 let mongo: any;
+
+
 beforeAll(async () => {
      mongo = await MongoMemoryServer.create();
     const mongoUri = await mongo.getUri();
@@ -16,6 +20,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+    jest.clearAllMocks();
     const collections = await mongoose.connection.db.collections();
     for (const collection of collections) {
         await collection.deleteMany({});

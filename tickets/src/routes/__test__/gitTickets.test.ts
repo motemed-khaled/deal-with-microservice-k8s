@@ -1,6 +1,9 @@
 import requset from "supertest";
 import { app } from "../../app";
 
+
+
+
 const createTicket =  (title:string , price:number) => {
     return  requset(app).post("/api/ticket")
             .set("Cookie", signin())

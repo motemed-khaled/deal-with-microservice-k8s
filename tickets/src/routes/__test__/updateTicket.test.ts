@@ -1,7 +1,8 @@
 import request from "supertest";
 import { app } from "../../app";
 import mongoose from "mongoose";
-import { response } from "express";
+
+import { natsWrapper } from "../../nats-wraper";
 
 describe("update ticket should", () => {
     it("return 404 if ticket not found", async () => {
@@ -70,6 +71,27 @@ describe("update ticket should", () => {
         
         expect(ticket.body.title).toMatch("sfsfssdfsfsdfsfsd");
         expect(ticket.body.price).toEqual(10000);
+    });
+    it("should publish event after ticket updated", async () => {
+        const cookie = signin();
+        const response = await request(app)
+            .post("/api/ticket")
+            .set("Cookie", cookie)
+            .send({
+                title: "sfsfssdf",
+                price: 10,
+            }).expect(201);
+        
+        await request(app)
+            .put(`/api/ticket/${response.body.id}`)
+            .set("Cookie", cookie)
+            .send({
+                title: "sfsfssdfsfsdfsfsd",
+                price: 10000,
+            })
+            .expect(200);
+        
+        expect(natsWrapper.client.publish).toHaveBeenCalled();
     });
     
 });
