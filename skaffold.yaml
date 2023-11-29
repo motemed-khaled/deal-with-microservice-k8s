@@ -19,3 +19,9 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: motemedkhaled/order
+      context: order
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
