@@ -4,9 +4,10 @@ import {
   BadRequestError,
   NotFoundError,
   ExpressReq,
-  
 } from "@mkproject/common";
 
+import { natsWrapper } from "../nats-wraper";
+import { OrderCreatedPublisher } from "../events/publisher/orderCreatedPublisher";
 import { OrderModel, OrderStatus } from "../models/order.model";
 import { ticketModel } from "../models/ticket.model";
 
@@ -37,6 +38,17 @@ export const createOrder = async (
     status: OrderStatus.Created,
     ticket,
     expireAt:expiration
+  });
+
+  new OrderCreatedPublisher(natsWrapper.client).publish({
+    id: order.id,
+    status: order.status,
+    userId: order.userId,
+    expiresAt: order.expireAt.toISOString(),
+    ticket: {
+      price: ticket.price,
+      id:ticket.id
+    }
   });
 
   res.status(201).json(order);

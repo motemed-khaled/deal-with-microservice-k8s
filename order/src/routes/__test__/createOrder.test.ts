@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 
 import { app } from "../../app";
 import { ticketModel } from "../../models/ticket.model";
-import { OrderModel , OrderStatus } from "../../models/order.model";
+import { OrderModel, OrderStatus } from "../../models/order.model";
+import { natsWrapper } from "../../nats-wraper";
 
 describe("create order ", () => {
     it("should return status 401 if user not logged in", async () => {
@@ -62,5 +63,19 @@ describe("create order ", () => {
         expect(response.body.ticket.id).toMatch(ticket.id);
     });
 
-    it.todo("publish event order created")
+    it(" should publish event order created", async () => {
+        const ticket = await ticketModel.create({
+            title: "ticket",
+            price: 30,
+        });
+
+        const response = await Request(app)
+            .post("/api/order")
+            .set("Cookie", signin())
+            .send({ ticketId: ticket.id })
+            .expect(201);
+        expect(response.body.ticket.id).toMatch(ticket.id);
+
+        expect(natsWrapper.client.publish).toHaveBeenCalled();
+    });
 });
