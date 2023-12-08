@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { OrderStatus } from "@mkproject/common";
 import { OrderModel } from "./order.model";
 
@@ -23,6 +24,9 @@ const ticketSchema = new mongoose.Schema<TicketDocument>({
         }
     }
 });
+
+ticketSchema.set("versionKey", "version");
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.methods.isReserved = async function () {
     const existingOrder = await OrderModel.findOne({

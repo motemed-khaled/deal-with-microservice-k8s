@@ -2,10 +2,12 @@ import { Document } from "mongoose";
 
 interface Ticket {
     title: string,
-    price:number
+    price: number,
+   
 }
 
 
-export interface TicketDocument extends Document, Ticket{
-    isReserved(): Promise<boolean>;
+export interface TicketDocument extends Document, Ticket {
+  isReserved(): Promise<boolean>;
+  version: number;
 }

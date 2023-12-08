@@ -1,9 +1,9 @@
-import { randomBytes } from "crypto";
 
 import { dbConnection } from "./config/database-connection";
 import { app } from "./app";
 import { natsWrapper } from "./nats-wraper";
-import { customError } from "@mkproject/common";
+import { orderCancelledListiner } from "./events/listiners/order-cancelled-listiner";
+import { OrderCreatedListiner } from "./events/listiners/order-created-listiner";
 
 const start = async () => {
   // check env file
@@ -44,6 +44,9 @@ const start = async () => {
     process.on("SIGTERM", () => {
       natsWrapper.client.close();
     });
+
+    new orderCancelledListiner(natsWrapper.client).listen();
+    new OrderCreatedListiner(natsWrapper.client).listen();
 
     //connect to database
     await dbConnection();

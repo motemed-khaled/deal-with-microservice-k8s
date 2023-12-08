@@ -9,4 +9,6 @@ interface Order{
     ticket:TicketDocument
 }
 
-export interface OrderDocument extends Document , Order{}
+export interface OrderDocument extends Document, Order{
+    version: number;
+}

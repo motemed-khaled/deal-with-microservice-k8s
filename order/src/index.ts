@@ -3,6 +3,10 @@ import { randomBytes } from "crypto";
 import { dbConnection } from "./config/database-connection";
 import { app } from "./app";
 import { natsWrapper } from "./nats-wraper";
+import { ticketUpdatedListiner } from "./events/listiners/ticket-updated-listiner";
+import { ticketCteatedListiner } from "./events/listiners/ticket-created-listiner";
+
+
 
 const start = async () => {
   // check env file
@@ -45,6 +49,9 @@ const start = async () => {
     process.on("SIGTERM", () => {
       natsWrapper.client.close();
     });
+
+    new ticketCteatedListiner(natsWrapper.client).listen();
+    new ticketUpdatedListiner(natsWrapper.client).listen();
 
     //connect to database
     await dbConnection();

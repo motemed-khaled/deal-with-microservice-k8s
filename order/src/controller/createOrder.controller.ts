@@ -25,6 +25,7 @@ export const createOrder = async (
   if (!ticket) {
     throw new NotFoundError();
   }
+  
   const isReserved = await ticket.isReserved();
   if (isReserved) {
     throw new BadRequestError("ticket alredy reserved");
@@ -44,6 +45,7 @@ export const createOrder = async (
     id: order.id,
     status: order.status,
     userId: order.userId,
+    version:order.version,
     expiresAt: order.expireAt.toISOString(),
     ticket: {
       price: ticket.price,

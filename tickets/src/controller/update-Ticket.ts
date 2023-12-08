@@ -1,5 +1,5 @@
 import { Response, NextFunction } from "express";
-import { ExpressReq, NotFoundError, UnAuthenticatedError } from "@mkproject/common";
+import { BadRequestError, ExpressReq, NotFoundError, UnAuthenticatedError } from "@mkproject/common";
 
 import { ticketModel } from "../models/ticket.model";
 import { TicketUpdatedPublisher } from "../events/publisher/ticket-updated-publisher";
@@ -13,6 +13,11 @@ export const updateTicket = async (req: ExpressReq, res: Response, next: NextFun
     if (!ticket) {
         throw new NotFoundError();
     }
+
+    if (ticket.orderId) {
+        throw new BadRequestError("Cannot edit a reserved ticket");
+    }
+
     if (req.user?.id != ticket.userId) {
         throw new UnAuthenticatedError()
     }
@@ -27,7 +32,8 @@ export const updateTicket = async (req: ExpressReq, res: Response, next: NextFun
         id: ticket.id,
         price: ticket.price,
         title: ticket.title,
-        userId: ticket.userId
+        userId: ticket.userId,
+        version:ticket.version
     });
 
     res.status(200).json(ticket);

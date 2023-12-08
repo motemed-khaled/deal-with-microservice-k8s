@@ -8,8 +8,6 @@ import { natsWrapper } from "../nats-wraper";
 
 
 
-
-
 export const createTicket = async(req: ExpressReq, res: Response, next: NextFunction) => {
     const ticket = await ticketModel.create({
         title: req.body.title,
@@ -21,7 +19,8 @@ export const createTicket = async(req: ExpressReq, res: Response, next: NextFunc
         id: ticket.id,
         price: ticket.price,
         title: ticket.title,
-        userId: ticket.userId
+        userId: ticket.userId,
+        version:ticket.version
     });
 
     res.status(201).json(ticket);

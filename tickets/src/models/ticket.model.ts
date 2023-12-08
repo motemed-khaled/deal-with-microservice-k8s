@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {updateIfCurrentPlugin} from "mongoose-update-if-current"
 
 import { TicketDocument } from "../types/ticket.interface";
 
@@ -14,6 +15,9 @@ const ticketSchema = new mongoose.Schema<TicketDocument>({
     userId: {
         type: String,
         required: true
+    },
+    orderId: {
+        type:String
     }
 }, {
     timestamps: true, toJSON: {
@@ -21,6 +25,10 @@ const ticketSchema = new mongoose.Schema<TicketDocument>({
             ret.id = ret._id;
             delete ret._id
     }
-} });
+    }
+});
+
+ticketSchema.set("versionKey", "version");
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 export const ticketModel = mongoose.model("tickets", ticketSchema);

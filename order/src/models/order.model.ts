@@ -1,4 +1,5 @@
 import mongoose, { mongo } from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { OrderDocument } from "../types/orderModel.interface";
 import { OrderStatus } from "@mkproject/common";
 export {OrderStatus}
@@ -29,6 +30,9 @@ const orderSchema = new mongoose.Schema<OrderDocument>({
         }
     }
 });
+
+orderSchema.set("versionKey", "version");
+orderSchema.plugin(updateIfCurrentPlugin);
 
 
 export const OrderModel = mongoose.model<OrderDocument>("orders", orderSchema);
