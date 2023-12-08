@@ -9,18 +9,32 @@ build:
   artifacts:
     - image: motemedkhaled/auth
       context: auth
+      docker:
+        dockerfile: Dockerfile
       sync:
         manual:
           - src: "src/**/*.ts"
             dest: .
     - image: motemedkhaled/tickets
       context: tickets
+      docker:
+        dockerfile: Dockerfile
       sync:
         manual:
           - src: "src/**/*.ts"
             dest: .
     - image: motemedkhaled/order
       context: order
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: motemedkhaled/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
       sync:
         manual:
           - src: "src/**/*.ts"
