@@ -31,4 +31,4 @@ const ticketSchema = new mongoose.Schema<TicketDocument>({
 ticketSchema.set("versionKey", "version");
 ticketSchema.plugin(updateIfCurrentPlugin);
 
-export const ticketModel = mongoose.model("tickets", ticketSchema);
+export const ticketModel = mongoose.model<TicketDocument>("tickets", ticketSchema);

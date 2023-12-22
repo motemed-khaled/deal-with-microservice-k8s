@@ -17,7 +17,7 @@ export const createOrder = async (
   next: NextFunction
 ) => {
 
-  const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+  const EXPIRATION_WINDOW_SECONDS = 1 * 60;
   const { ticketId } = req.body;
 
   const ticket = await ticketModel.findById(ticketId);

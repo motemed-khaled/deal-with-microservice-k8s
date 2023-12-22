@@ -1,10 +1,17 @@
+import { dbConnection } from "./config/database-connection";
+import { app } from "./app";
 import { natsWrapper } from "./nats-wraper";
-import { OrderCreatedListiner } from "./event/listiner/order-created-listiner";
+import { OrderCancelledListiner } from "./events/listiner/order-cancelled.listiner";
+import { OrderCreatedListiner } from "./events/listiner/order-created.listiner";
+
 const start = async () => {
   // check env file
 
-  if (!process.env.REDIS_HOST) {
-    throw new Error("redis host must be defined");
+  if (!process.env.JWT_KEY) {
+    throw new Error("jwt key must be defined");
+  }
+  if (!process.env.MONGO_URI) {
+    throw new Error("mongo uri must be defined");
   }
   if (!process.env.NATS_CLUSTER_ID) {
     throw new Error("nats cluster id must be defined");
@@ -37,11 +44,18 @@ const start = async () => {
       natsWrapper.client.close();
     });
 
+    new OrderCancelledListiner(natsWrapper.client).listen();
     new OrderCreatedListiner(natsWrapper.client).listen();
+
+    //connect to database
+    await dbConnection();
   } catch (err) {
-    throw new Error("error from nats connection");
+    throw new Error("error from mongo connection or nats connection");
   }
 
+  app.listen(3000, () => {
+    console.log("app listen in port 3000");
+  });
 };
 
 start();
