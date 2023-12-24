@@ -35,12 +35,12 @@ export const createPayment = async (
     throw new BadRequestError("can not bay for cancelled order");
   }
 
+
   const charger = await stripe.charges.create({
     currency: "usd",
     amount: order.price * 100,
     source: token,
   });
-
   const payment = await paymentModel.create({
     orderId,
     stripeId: charger.id,

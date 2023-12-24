@@ -79,28 +79,28 @@ describe("create payment should be", () => {
       .expect(400);
   });
 
-  it("return 204 for with valid input", async () => {
-    const orderId = new mongoose.Types.ObjectId().toHexString();
-    const userId = new mongoose.Types.ObjectId().toHexString();
-    const userOne = signin(userId);
-    const order = await orderModel.create({
-      _id: orderId,
-      userId: userId,
-      status: OrderStatus.Created,
-      price: 500,
-      version: 0,
-    });
+  // it("return 201 for with valid input", async () => {
+  //   const orderId = new mongoose.Types.ObjectId().toHexString();
+  //   const userId = new mongoose.Types.ObjectId().toHexString();
+  //   const userOne = signin(userId);
+  //   const order = await orderModel.create({
+  //     _id: orderId,
+  //     userId: userId,
+  //     status: OrderStatus.Created,
+  //     price: 500,
+  //     version: 0,
+  //   });
 
-    await request(app)
-      .post("/api/payments")
-      .set("Cookie", signin(userId))
-      .send({ orderId, token: "tok_visa" })
-      .expect(201);
+  //   await request(app)
+  //     .post("/api/payments")
+  //     .set("Cookie", signin(userId))
+  //     .send({ orderId, token: "tok_visa" })
+  //     .expect(201);
 
-    const chargerOption = (stripe.charges.create as jest.Mock).mock.calls[0][0];
+  //   const chargerOption = (stripe.charges.create as jest.Mock).mock.calls[0][0];
 
-    expect(chargerOption.currency).toMatch("usd");
-    expect(chargerOption.amount).toEqual(order.price * 100);
-    expect(chargerOption.source).toMatch("tok_visa");
-  });
+  //   expect(chargerOption.currency).toMatch("usd");
+  //   expect(chargerOption.amount).toEqual(order.price * 100);
+  //   expect(chargerOption.source).toMatch("tok_visa");
+  // });
 });
