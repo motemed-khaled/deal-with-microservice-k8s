@@ -75,7 +75,7 @@ describe("create payment should be", () => {
     await request(app)
       .post("/api/payments")
       .set("Cookie", signin(userId))
-      .send({ orderId, token: "fds" })
+      .send({ orderId, token: "fdsd" })
       .expect(400);
   });
 
