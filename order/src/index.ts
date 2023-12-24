@@ -60,6 +60,8 @@ const start = async () => {
   }
 
   app.listen(3000, () => {
+    console.log("orders start up");
+    
     console.log("app listen in port 3000");
   });
 };
