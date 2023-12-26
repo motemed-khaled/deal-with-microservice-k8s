@@ -79,7 +79,8 @@ describe("create payment should be", () => {
       .expect(400);
   });
 
-  // it("return 201 for with valid input", async () => {
+
+  // it("return 204 for with valid input", async () => {
   //   const orderId = new mongoose.Types.ObjectId().toHexString();
   //   const userId = new mongoose.Types.ObjectId().toHexString();
   //   const userOne = signin(userId);
