@@ -9,6 +9,7 @@ import { ExpirationCompleteListiner } from "./events/listiners/expiration-comple
 import { PaymentCreatedListiner } from "./events/listiners/payment-complete.listiner";
 
 const start = async () => {
+  console.log("start order service ....")
   // check env file
 
   if (!process.env.JWT_KEY) {
