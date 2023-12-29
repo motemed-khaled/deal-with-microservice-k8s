@@ -19,9 +19,7 @@
 #       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
 #       - run: docker push motemedkhaled/auth
-
 name: deploy-auth
-
 on:
   push:
     branches:
@@ -40,6 +38,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: 'https://index.docker.io/v1/'
+          logout: true
       - name: Build and push Docker image
         run: |
           cd auth
