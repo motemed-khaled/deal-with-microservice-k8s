@@ -3,7 +3,6 @@ import { app } from "./app";
 
 
 const start = async () => {
-    
     //connect to database
     await dbConnection();
 
