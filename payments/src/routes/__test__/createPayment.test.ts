@@ -75,9 +75,10 @@ describe("create payment should be", () => {
     await request(app)
       .post("/api/payments")
       .set("Cookie", signin(userId))
-      .send({ orderId, token: "fds" })
+      .send({ orderId, token: "fdsd" })
       .expect(400);
   });
+
 
   // it("return 204 for with valid input", async () => {
   //   const orderId = new mongoose.Types.ObjectId().toHexString();
