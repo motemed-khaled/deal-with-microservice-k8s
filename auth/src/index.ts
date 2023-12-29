@@ -3,7 +3,6 @@ import { app } from "./app";
 
 
 const start = async () => {
-    console.log("start auth service");
     
     //connect to database
     await dbConnection();
